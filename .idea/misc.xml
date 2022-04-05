@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/drawable/login_gradient.xml" value="0.1945" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/drawable/splash_gradient_color.xml" value="0.1945" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/drawable/top_corner.xml" value="0.1945" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/layout/activity_get_started.xml" value="0.1" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/layout/activity_login.xml" value="0.17074275362318841" />
         <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/layout/activity_splash.xml" value="0.17074275362318841" />
+        <entry key="..\:/Android Projects/Mvvm Test/app/src/main/res/layout/bottom_dialog_layout.xml" value="0.17074275362318841" />
       </map>
     </option>
   </component>

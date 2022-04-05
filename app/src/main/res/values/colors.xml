@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="grad1">#DEE562</color>
+    <color name="grad2">#4E9533</color>
+    <color name="grad3">#D8E465</color>
+    <color name="border">#C8C8C8</color>
+    <color name="clr_btn">#4E9533</color>
+    <color name="back">#F3F3F3</color>
 </resources>
