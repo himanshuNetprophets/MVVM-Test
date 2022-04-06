@@ -86,6 +86,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_getStarted"
+                    android:onClick="@{()->model.login()}"
                     android:layout_margin="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"

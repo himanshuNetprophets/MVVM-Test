@@ -25,20 +25,25 @@ import com.example.test.viewModel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
     lateinit var txt_register : TextView
-    lateinit var binding: ActivityLoginBinding
+
     private var mCtx: Context? = null
     private var viewModel: LoginViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_login)
-        val binding: ViewDataBinding? = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        val binding: ActivityLoginBinding? = DataBindingUtil.setContentView(this, R.layout.activity_login)
         txt_register = findViewById(R.id.txt_register)
 
         mCtx = this;
         viewModel = ViewModelProvider(this, LoginModelFactory()).get(LoginViewModel::class.java)
-        mCtx = this
+
+        if (binding != null) {
+            binding.model = viewModel
+        }
         binding!!.lifecycleOwner = this
+
+
 
         val text: String = txt_register.getText().toString()
         val ss = SpannableString(text)
