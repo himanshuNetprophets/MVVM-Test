@@ -13,39 +13,37 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+
+import com.example.test.callback.LoginActivityCallback
 import com.example.test.databinding.ActivityLoginBinding
-import com.example.test.factory.LoginModelFactory
-import com.example.test.viewModel.LoginViewModel
+
+import com.example.test.util.CustomeProgressDialog
+import com.example.test.viewmodel.LoginViewModel
+import com.example.test.viewmodel.UserViewModel
 
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var txt_register : TextView
 
-    private var mCtx: Context? = null
-    private var viewModel: LoginViewModel? = null
+    var binding: ActivityLoginBinding? = null
+    var viewmodel: LoginViewModel? = null
+    var customeProgressDialog: CustomeProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_login)
-        val binding: ActivityLoginBinding? = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        txt_register = findViewById(R.id.txt_register)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        viewmodel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        binding?.viewmodel = viewmodel
+        binding?.lifecycleOwner = this
+        customeProgressDialog = CustomeProgressDialog(this)
+        initObservables()
 
-        mCtx = this;
-        viewModel = ViewModelProvider(this, LoginModelFactory()).get(LoginViewModel::class.java)
-
-        if (binding != null) {
-            binding.model = viewModel
-        }
-        binding!!.lifecycleOwner = this
-
-
-
-        val text: String = txt_register.getText().toString()
+        val text: String = binding?.txtRegister?.getText().toString()
         val ss = SpannableString(text)
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
 
@@ -68,8 +66,20 @@ class LoginActivity : AppCompatActivity() {
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        txt_register.setText(ss)
-        txt_register.setMovementMethod(LinkMovementMethod.getInstance())
-        txt_register.setHighlightColor(Color.TRANSPARENT)
+        binding?.txtRegister?.setText(ss)
+        binding?.txtRegister?.setMovementMethod(LinkMovementMethod.getInstance())
+        binding?.txtRegister?.setHighlightColor(Color.TRANSPARENT)
     }
+
+    private fun initObservables() {
+        viewmodel?.progressDialog?.observe(this, Observer {
+//            Toast.makeText(this, "welcome,", Toast.LENGTH_LONG).show()
+        })
+
+        viewmodel?.userLogin?.observe(this, Observer { user ->
+            Toast.makeText(this, "welcome, ${user?.last_name}", Toast.LENGTH_LONG).show()
+        })
+    }
+
+
 }

@@ -5,8 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="model"
-            type="com.example.test.viewModel.LoginViewModel" />
+            name="handler"
+            type="com.example.test.callback.LoginActivityCallback" />
+        <variable
+            name="viewmodel"
+            type="com.example.test.viewmodel.LoginViewModel" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
@@ -53,19 +56,25 @@
                 android:orientation="vertical"
                 android:background="@color/white">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:textColor="@color/black"
+                    android:onTextChanged="@{viewmodel::onEmailChanged}"
+                    android:text="@={viewmodel.email}"
                     android:textColorHint="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email Id"/>
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPassword"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:textColor="@color/black"
+                    android:onTextChanged="@{viewmodel::onPasswordChanged}"
+                    android:text="@={viewmodel.password}"
                     android:textColorHint="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,11 +91,20 @@
                     android:text="Forgot Password?">
 
                 </TextView>
+<!--                <Button-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:enabled="true"-->
+<!--                    android:onClick="@{()->viewmodel.login()}"-->
+<!--                    android:text="@string/app_name">-->
+
+<!--                </Button>-->
 
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_getStarted"
-                    android:onClick="@{()->model.login()}"
+                    android:enabled="true"
+                    android:onClick="@{()->viewmodel.login()}"
                     android:layout_margin="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
