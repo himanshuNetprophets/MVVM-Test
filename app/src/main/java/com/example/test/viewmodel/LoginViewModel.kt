@@ -1,23 +1,18 @@
 package com.example.test.viewmodel
 
-import android.app.Application
-import android.util.Log
+import android.content.Context
 import android.widget.Toast
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import com.example.test.Webservice.ApiClient
-import com.example.test.Webservice.AuthBeanModel
+import androidx.lifecycle.*
 import com.example.test.model.User
+import com.example.test.retrofit.MainActivityRepository
+import com.example.test.retrofit.ServicesSetterGetter
 import com.example.test.util.SingleLiveEvent
 import com.example.test.util.Util
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class LoginViewModel(application: Application) : AndroidViewModel(application), Callback<User> {
+class LoginViewModel(val context: Context) : ViewModel() {
 
 
     var btnSelected: ObservableBoolean? = null
@@ -45,56 +40,45 @@ class LoginViewModel(application: Application) : AndroidViewModel(application), 
 
 
     }
+    var servicesLiveData: MutableLiveData<ServicesSetterGetter>? = MutableLiveData<ServicesSetterGetter>()
+
+    fun getUser() : LiveData<ServicesSetterGetter>? {
+//        if(!Util.isEmailValid(email?.get()!!)){
+//            Toast.makeText(context,"Please Enter Valid Email Id",Toast.LENGTH_LONG).show()
+//        } else if (password?.get()!!.length < 8){
+//            Toast.makeText(context,"Please Enter Valid Password",Toast.LENGTH_LONG).show()
+//        } else {
+            servicesLiveData = MainActivityRepository.getServicesApiCall("1GyU75Qt3xPpvK17pPeC7w==","1GyU75Qt3xPpvK17pPeC7w")
+            return servicesLiveData
+//        }
+////        servicesLiveData = MainActivityRepository.getServicesApiCall()
+//        return servicesLiveData
+
+    }
+
 
     fun login() {
         if(!Util.isEmailValid(email?.get()!!)){
-            Toast.makeText(getApplication(),"Please Enter Valid Email Id",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Please Enter Valid Email Id",Toast.LENGTH_LONG).show()
         } else if (password?.get()!!.length < 8){
-            Toast.makeText(getApplication(),"Please Enter Valid Password",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Please Enter Valid Password",Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(getApplication(),"Login Done",Toast.LENGTH_LONG).show()
-
-//            WebServiceClient.client.create(BackEndApi::class.java).LOGIN(email = email?.get()!!
-//                , password = password?.get()!!)
-//                .enqueue(this)
-
-            ApiClient.apiService.login("admin@1234", "login.getEmail()", "login.getPassword()")
-                .enqueue(object : Callback<AuthBeanModel> {
-                    override fun onResponse(
-                        call: Call<AuthBeanModel>,
-                        response: Response<AuthBeanModel>) {
-                        Toast.makeText(getApplication(),"fsdfsd",Toast.LENGTH_LONG).show()
-//                        if (response.body().getStatus()) {
-//
-//                        } else {
-//
-//                        }
-                    }
-
-                    override fun onFailure(call: Call<AuthBeanModel>, t: Throwable) {
-                        Toast.makeText(getApplication(),"fsdfsd",Toast.LENGTH_LONG).show()
-                    }
-                })
-
+            Toast.makeText(context,"1",Toast.LENGTH_LONG).show()
+//            servicesLiveData = MainActivityRepository.getServicesApiCall()
         }
-
-
-
+    }
+    override fun onCleared() {
+        super.onCleared()
     }
 
-    override fun onResponse(call: Call<User>?, response: Response<User>?) {
-        progressDialog?.value = false
-        userLogin?.value = response?.body()
+    class Factory(val context: Context) : ViewModelProvider.NewInstanceFactory() {
 
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+            return LoginViewModel(context) as T
+        }
     }
 
-    override fun onFailure(call: Call<User>?, t: Throwable?) {
-        progressDialog?.value = false
-
-    }
-    fun <T> Call<T>?.enqueue(callback: Callback<AuthBeanModel>) {
-        Toast.makeText(getApplication(),callback.toString(),Toast.LENGTH_LONG).show()
-    }
 
 }
 

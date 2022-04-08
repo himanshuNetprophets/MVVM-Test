@@ -32,16 +32,13 @@ class LoginActivity : AppCompatActivity() {
 
     var binding: ActivityLoginBinding? = null
     var viewmodel: LoginViewModel? = null
-    var customeProgressDialog: CustomeProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        viewmodel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        viewmodel= ViewModelProviders.of(this, LoginViewModel.Factory(this)).get(LoginViewModel::class.java)
         binding?.viewmodel = viewmodel
         binding?.lifecycleOwner = this
-        customeProgressDialog = CustomeProgressDialog(this)
-        initObservables()
 
         val text: String = binding?.txtRegister?.getText().toString()
         val ss = SpannableString(text)
@@ -60,6 +57,22 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        binding!!.cvLogin.setOnClickListener {
+        viewmodel!!.getUser()?.observe(this, Observer { serviceSetterGetter ->
+
+    //            wp7progressBar.hideProgressBar()
+
+            val msg = serviceSetterGetter.message
+
+            Toast.makeText(this,serviceSetterGetter.message,Toast.LENGTH_LONG).show()
+
+//            binding!!.txtRegister.setText(msg)
+
+        })
+
+        }
+
+
 
         ss.setSpan(
             clickableSpan, 23, 36,
@@ -70,16 +83,5 @@ class LoginActivity : AppCompatActivity() {
         binding?.txtRegister?.setMovementMethod(LinkMovementMethod.getInstance())
         binding?.txtRegister?.setHighlightColor(Color.TRANSPARENT)
     }
-
-    private fun initObservables() {
-        viewmodel?.progressDialog?.observe(this, Observer {
-//            Toast.makeText(this, "welcome,", Toast.LENGTH_LONG).show()
-        })
-
-        viewmodel?.userLogin?.observe(this, Observer { user ->
-            Toast.makeText(this, "welcome, ${user?.last_name}", Toast.LENGTH_LONG).show()
-        })
-    }
-
 
 }
